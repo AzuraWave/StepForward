@@ -1,4 +1,5 @@
-﻿using System;
+﻿using StepForward.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -10,21 +11,15 @@ namespace StepForward.Controllers
     {
         public ActionResult Index()
         {
-            return View();
-        }
-
-        public ActionResult About()
-        {
-            ViewBag.Message = "Your application description page.";
-
-            return View();
-        }
-
-        public ActionResult Contact()
-        {
-            ViewBag.Message = "Your contact page.";
-
-            return View();
+            using (var context = new StepForwardContext())
+            {
+                var sectionTypes = context.Section_Types.ToList();
+                if (sectionTypes == null || !sectionTypes.Any())
+                {
+                    ViewBag.Message = "No data found.";
+                }
+                return View(sectionTypes);
+            }
         }
     }
 }
