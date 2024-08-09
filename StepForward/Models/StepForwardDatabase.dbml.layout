@@ -1,0 +1,51 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ordesignerObjectsDiagram dslVersion="1.0.0.0" absoluteBounds="0, 0, 11, 8.5" name="StepForwardDatabase">
+  <DataContextMoniker Name="/StepForwardDatabaseDataContext" />
+  <nestedChildShapes>
+    <classShape Id="f18ef974-51d8-4185-a4e7-ca8c00322ffb" absoluteBounds="1.875, 1.875, 2, 2.1554996744791666">
+      <DataClassMoniker Name="/StepForwardDatabaseDataContext/Section" />
+      <nestedChildShapes>
+        <elementListCompartment Id="0471807c-33b2-43f8-a221-55c1c40553f4" absoluteBounds="1.8900000000000001, 2.335, 1.9700000000000002, 1.5954996744791665" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="95d8d13b-b51c-4244-a242-77adc652d510" absoluteBounds="7.25, 1, 2, 1.7708968098958331">
+      <DataClassMoniker Name="/StepForwardDatabaseDataContext/Image" />
+      <nestedChildShapes>
+        <elementListCompartment Id="949eb056-9dac-4964-9222-f68ac436390c" absoluteBounds="7.2650000000000006, 1.46, 1.9700000000000002, 1.2108968098958333" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="14fd8028-b2b1-49ae-af91-2e26105e2bda" absoluteBounds="2.125, 4.5, 2, 1.1939925130208333">
+      <DataClassMoniker Name="/StepForwardDatabaseDataContext/Section_Type" />
+      <nestedChildShapes>
+        <elementListCompartment Id="210c99bf-c706-4b17-ae0d-39ae6bd46754" absoluteBounds="2.14, 4.96, 1.9700000000000002, 0.63399251302083326" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <associationConnector edgePoints="[(3 : 4.5); (3 : 4.03049967447917)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+      <AssociationMoniker Name="/StepForwardDatabaseDataContext/Section_Type/Section_Type_Section" />
+      <nodes>
+        <classShapeMoniker Id="14fd8028-b2b1-49ae-af91-2e26105e2bda" />
+        <classShapeMoniker Id="f18ef974-51d8-4185-a4e7-ca8c00322ffb" />
+      </nodes>
+    </associationConnector>
+    <classShape Id="96992522-8b5b-4e99-858b-d6e351d314b3" absoluteBounds="4.75, 2.875, 2, 1.1939925130208333">
+      <DataClassMoniker Name="/StepForwardDatabaseDataContext/Section_Image" />
+      <nestedChildShapes>
+        <elementListCompartment Id="9491dd4a-ee9a-419d-bd93-a15a1911b367" absoluteBounds="4.765, 3.335, 1.9700000000000002, 0.63399251302083326" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <associationConnector edgePoints="[(3.875 : 3.45274983723958); (4.75 : 3.45274983723958)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+      <AssociationMoniker Name="/StepForwardDatabaseDataContext/Section/Section_Section_Image" />
+      <nodes>
+        <classShapeMoniker Id="f18ef974-51d8-4185-a4e7-ca8c00322ffb" />
+        <classShapeMoniker Id="96992522-8b5b-4e99-858b-d6e351d314b3" />
+      </nodes>
+    </associationConnector>
+    <associationConnector edgePoints="[(7.25 : 2.77089680989583); (6.75 : 2.875)]" fixedFrom="NotFixed" fixedTo="NotFixed">
+      <AssociationMoniker Name="/StepForwardDatabaseDataContext/Image/Image_Section_Image" />
+      <nodes>
+        <classShapeMoniker Id="95d8d13b-b51c-4244-a242-77adc652d510" />
+        <classShapeMoniker Id="96992522-8b5b-4e99-858b-d6e351d314b3" />
+      </nodes>
+    </associationConnector>
+  </nestedChildShapes>
+</ordesignerObjectsDiagram>

@@ -130,16 +130,14 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Models\DataClasses.cs">
-      <DependentUpon>DataClasses.dbml</DependentUpon>
-    </Compile>
-    <Compile Include="Models\DataClasses.designer.cs">
+    <Compile Include="Models\SectionTypeModel\SectionTypeService.cs" />
+    <Compile Include="Models\StepForwardContext.cs" />
+    <Compile Include="Models\StepForwardDatabase.designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>DataClasses.dbml</DependentUpon>
+      <DependentUpon>StepForwardDatabase.dbml</DependentUpon>
     </Compile>
-    <Compile Include="Models\StepForwardContext.cs" />
-    <Compile Include="Models\Tables\Section_Type.cs" />
+    <Compile Include="Models\Tables\SectionTypeViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -168,13 +166,13 @@
     <Content Include="Scripts\bootstrap.esm.min.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
-    <Content Include="Models\DataClasses.dbml">
+    <Content Include="Models\StepForwardDatabase.dbml">
       <Generator>MSLinqToSQLGenerator</Generator>
-      <LastGenOutput>DataClasses.designer.cs</LastGenOutput>
+      <LastGenOutput>StepForwardDatabase.designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </Content>
-    <None Include="Models\DataClasses.dbml.layout">
-      <DependentUpon>DataClasses.dbml</DependentUpon>
+    <None Include="Models\StepForwardDatabase.dbml.layout">
+      <DependentUpon>StepForwardDatabase.dbml</DependentUpon>
     </None>
     <None Include="Scripts\jquery-3.7.0.intellisense.js" />
     <Content Include="Scripts\jquery-3.7.0.js" />
@@ -202,7 +200,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="NewFolder1\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.rtl.min.css.map" />

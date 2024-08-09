@@ -1,13 +1,23 @@
-﻿@model IEnumerable<StepForward.Models.Section_Type>
+﻿@Model  StepForward.Models.SectionTypeViewModel
 
 <h2>Section Types</h2>
-@if (ViewBag.Message != null)
-{
-    <p>@ViewBag.Message</p>
-}
+
 <ul>
-    @foreach (var sectiontype in Model)
+    @foreach (var sectiontype in Model.SectionTypes)
     {
         <li>@sectiontype.Id - @sectiontype.Name</li>
     }
 </ul>
+
+<h2>Create Section Type</h2>
+
+@using (Html.BeginForm("CreateSectionType", "Home", FormMethod.Post))
+{
+    <div>
+        <label for="Name">Name:</label>
+        <input type="text" id="Name" name="Name" value="@Model.NewSectionType.Name" />
+    </div>
+    <div>
+        <input type="submit" value="Create" />
+    </div>
+}

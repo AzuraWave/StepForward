@@ -1,25 +1,39 @@
-﻿using StepForward.Models;
+﻿
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
+using StepForward.Models;
 
 namespace StepForward.Controllers
 {
     public class HomeController : Controller
     {
+        private readonly SectionTypeService _sectionTypeService;
+        public HomeController()
+        {
+            _sectionTypeService = new SectionTypeService();
+        }
+
         public ActionResult Index()
         {
             using (var context = new StepForwardContext())
             {
-                var sectionTypes = context.Section_Types.ToList();
-                if (sectionTypes == null || !sectionTypes.Any())
-                {
-                    ViewBag.Message = "No data found.";
-                }
-                return View(sectionTypes);
+
+                var viewModel = _sectionTypeService.GetSectionTypeViewModel();
+
+                return View(viewModel);
             }
         }
+
+        [HttpPost]
+        public ActionResult CreateSectionType(Section_Type sectionType)
+        {
+            _sectionTypeService.AddSectionType(sectionType);
+
+            return RedirectToAction("Index");
+        }
+
+
     }
 }
