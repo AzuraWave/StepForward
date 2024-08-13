@@ -1,6 +1,7 @@
 ﻿
 using System;
 using System.Collections.Generic;
+using System.Data.Linq;
 using System.Linq;
 using System.Web.Mvc;
 using StepForward.Models;
@@ -64,17 +65,52 @@ namespace StepForward.Controllers
             return View("Index", viewModel);
         }
 
+
         [HttpGet]
-        public ActionResult EditSectionType(int id)
+        public ActionResult EditSectionType(int id )
         {
-            
-            
+            using (var db = new StepForwardContext())
+            {
+                var sectionType = db.Section_Types.SingleOrDefault(st => st.Id == id);
+
+                if (sectionType == null)
+                {
+                    return HttpNotFound();
+                }
+
+                var viewModel = new SectionTypeViewModel
+                {
+                    NewSectionType = sectionType
+                };
+
+                return View(viewModel);
+            }
         }
 
         [HttpPost]
-        public ActionResult EditSectionType(Section_Type sectionType)
+        public ActionResult EditSectionType(SectionTypeViewModel model)
         {
-            
+            if (ModelState.IsValid)
+            {
+                using (var db = new StepForwardContext())
+                {
+                    var sectionType = db.Section_Types.SingleOrDefault(x => x.Id == model.NewSectionType.Id);
+
+                    if (sectionType == null)
+                    {
+                        return HttpNotFound();
+                    }
+
+                    sectionType.Name = model.NewSectionType.Name;
+
+                    db.SubmitChanges();
+
+                    return RedirectToAction("Index");
+                }
+            }
+
+            // If the model state is invalid, redisplay the form with validation errors
+            return View(model);
         }
 
     }
