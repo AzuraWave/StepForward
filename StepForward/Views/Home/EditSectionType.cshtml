@@ -1,0 +1,18 @@
+﻿@model StepForward.Models.SectionTypeViewModel
+
+<h2>Edit Section Type</h2>
+
+@using (Html.BeginForm("EditSectionType", "Home", FormMethod.Post))
+{
+    @Html.HiddenFor(model => model.NewSectionType.Id)
+
+<div>
+    <label for="Name">Name:</label>
+    @Html.TextBoxFor(model => model.NewSectionType.Name, new { @class = "form-control" })
+    @Html.ValidationMessage("EditSectionType", "", new { @class = "text-danger" })
+</div>
+
+    <div>
+        <input type="submit" value="Update" class="btn btn-primary" />
+    </div>
+}

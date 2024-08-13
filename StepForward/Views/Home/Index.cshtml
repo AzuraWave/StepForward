@@ -16,8 +16,38 @@
     <div>
         <label for="Name">Name:</label>
         <input type="text" id="Name" name="Name" value="@Model.NewSectionType.Name" />
+        @Html.ValidationMessage("CreateSectionTypes", "", new { @class = "text-danger" })
     </div>
     <div>
         <input type="submit" value="Create" />
     </div>
 }
+
+<h2>Delete Items</h2>
+
+@using (Html.BeginForm("DeleteSectionTypes", "Home", FormMethod.Post))
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Select</th>
+                <th>Name</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.SectionTypes)
+            {
+                <tr>
+                    <td>
+                        <input type="checkbox" name="selectedItems" value="@item.Id" />
+                    </td>
+                    <td>@item.Name</td>
+                    <td><a href="@Url.Action("EditSectionType", "Home", new { id = item.Id })">Edit</a></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <button type="submit" class="btn btn-danger">Delete Selected</button>
+    @Html.ValidationMessage("DeleteSectionTypes", "", new { @class = "text-danger" })
+}
+
