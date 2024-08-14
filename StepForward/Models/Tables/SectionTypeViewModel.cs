@@ -9,5 +9,9 @@ namespace StepForward.Models
     {
         public Section_Type NewSectionType { get; set; }
         public IEnumerable<Section_Type> SectionTypes { get; set; }
+        public bool IsSuccess { get; set; }
+
+        public string Message { get; set; }
+        public string SourceAction { get; set; }
     }
 }

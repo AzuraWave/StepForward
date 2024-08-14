@@ -18,99 +18,83 @@ namespace StepForward.Controllers
 
         public ActionResult Index()
         {
-            using (var context = new StepForwardContext())
-            {
-                 string errormessage = null; 
-
-                var viewModel = _sectionTypeService.GetSectionTypeViewModel(out errormessage);
-
-
-
+                var viewModel = _sectionTypeService.GetSectionTypeViewModel();
                 return View(viewModel);
-            }
+  
         }
 
         [HttpPost]
         public ActionResult CreateSectionType(Section_Type sectionType)
         {
+            var viewModel = _sectionTypeService.GetSectionTypeViewModel();
+            viewModel.SourceAction = "CreateSectionType";
 
             string errormessage = null;
+            bool isSuccessful = _sectionTypeService.AddSectionType(sectionType, out errormessage);
 
-            _sectionTypeService.AddSectionType(sectionType ,out errormessage);
-
-            if (!string.IsNullOrEmpty(errormessage))
+            if (!isSuccessful)
             {
-                ModelState.AddModelError("CreateSectionTypes", errormessage);
+                viewModel.IsSuccess = false;
+                viewModel.Message = errormessage;
+                return View("Index", viewModel); 
             }
 
-
-
-            var viewModel = _sectionTypeService.GetSectionTypeViewModel(out errormessage);
-            return View("Index", viewModel);
+            return RedirectToAction("Index"); 
         }
 
         [HttpPost]
         public ActionResult DeleteSectionTypes(int[] selectedItems)
         {
-            string errormessage = null;
+            var viewModel = _sectionTypeService.GetSectionTypeViewModel();
+            viewModel.SourceAction = "DeleteSectionType";
 
-            _sectionTypeService.DeleteSectionTypes(selectedItems, out errormessage);
-            if (!string.IsNullOrEmpty(errormessage))
+            string errormessage = null;
+            bool isSuccessful = _sectionTypeService.DeleteSectionTypes(selectedItems, out errormessage);
+
+            if (!isSuccessful)
             {
-                ModelState.AddModelError("DeleteSectionTypes", errormessage);
+                viewModel.IsSuccess = false;
+                viewModel.Message = errormessage;
+                return View("Index", viewModel); 
             }
 
-
-            var viewModel = _sectionTypeService.GetSectionTypeViewModel(out errormessage);
-            return View("Index", viewModel);
+            return RedirectToAction("Index"); 
         }
 
 
         [HttpGet]
         public ActionResult EditSectionType(int id )
         {
-            using (var db = new StepForwardContext())
-            {
-                var sectionType = db.Section_Types.SingleOrDefault(st => st.Id == id);
+            
+                var sectionType = _sectionTypeService.GetSection_Type(id);
+                
+                var viewmodel = _sectionTypeService.GetSectionTypeViewModel();
+                viewmodel.NewSectionType = sectionType;
+                viewmodel.SourceAction = "GetEditSectionType";
 
-                if (sectionType == null)
-                {
-                    return HttpNotFound();
-                }
-
-                var viewModel = new SectionTypeViewModel
-                {
-                    NewSectionType = sectionType
-                };
-
-                return View(viewModel);
-            }
+                return View(viewmodel);
+            
         }
 
         [HttpPost]
         public ActionResult EditSectionType(SectionTypeViewModel model)
         {
-            if (ModelState.IsValid)
-            {
-                using (var db = new StepForwardContext())
-                {
-                    var sectionType = db.Section_Types.SingleOrDefault(x => x.Id == model.NewSectionType.Id);
+            var viewModel = _sectionTypeService.GetSectionTypeViewModel();
+            viewModel.NewSectionType = model.NewSectionType;
+            viewModel.SourceAction = "PostEditSectionType";
 
-                    if (sectionType == null)
-                    {
-                        return HttpNotFound();
-                    }
-
-                    sectionType.Name = model.NewSectionType.Name;
-
-                    db.SubmitChanges();
-
-                    return RedirectToAction("Index");
+            string error = null;
+            
+            bool isSuccessful =  _sectionTypeService.EditSectionType(model.NewSectionType, out error);
+                
+                if (!isSuccessful)
+                { 
+                    viewModel.IsSuccess = false;
+                    viewModel.Message = error;
+                    return View(viewModel);
                 }
-            }
 
-            // If the model state is invalid, redisplay the form with validation errors
-            return View(model);
+            return RedirectToAction("Index");
         }
 
     }

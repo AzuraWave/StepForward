@@ -8,8 +8,12 @@
 
 <div>
     @Html.LabelFor(model => model.NewSectionType.Name)
-    @Html.TextBoxFor(model => model.NewSectionType.Name, new { @class = "form-control" })
-    @Html.ValidationMessage("EditSectionType", "", new { @class = "text-danger" })
+    @Html.EditorFor(model => model.NewSectionType.Name)
+
+    @if (!Model.IsSuccess && Model.SourceAction == "PostEditSectionType")
+    {
+        <label>@Model.Message</label>
+    }
 </div>
 
     <div>
