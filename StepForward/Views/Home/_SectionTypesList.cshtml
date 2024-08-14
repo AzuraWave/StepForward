@@ -1,0 +1,9 @@
+﻿
+@model IEnumerable<StepForward.Models.Section_Type>
+
+<ul>
+    @foreach (var sectionType in Model)
+    {
+        <li>@sectionType.Id - @sectionType.Name</li>
+    }
+</ul>

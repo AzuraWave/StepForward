@@ -1,0 +1,93 @@
+﻿@model StepForward.Models.SectionTypeViewModel
+
+<h2>Create Section Type</h2>
+
+<div id="createSectionTypeContainer">
+    @using (Html.BeginForm("CreateSectionType", "Home", FormMethod.Post, new { id = "createSectionTypeForm" }))
+    {
+        <div>
+            <label for="Name">Name:</label>
+            <input type="text" id="Name" name="Name" value="@Model.NewSectionType.Name" />
+            @if (!Model.IsSuccess && Model.SourceAction == "CreateSectionType")
+            {
+                <label id="createError">@Model.Message</label>
+            }
+        </div>
+        <div>
+            <input type="button" value="Create" onclick="submitCreateForm()" />
+        </div>
+    }
+
+</div>
+
+<h2>Delete Items</h2>
+
+<div id="deleteSectionTypesContainer">
+    @using (Html.BeginForm("DeleteSectionTypes", "Home", FormMethod.Post, new { id = "deleteSectionTypesForm" }))
+    {
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Select</th>
+                    <th>Name</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.SectionTypes)
+                {
+                    <tr>
+                        <td>
+                            <input type="checkbox" name="selectedItems" value="@item.Id" />
+                        </td>
+                        <td>@item.Name</td>
+                        <td><a href="@Url.Action("EditSectionType", "Home", new { id = item.Id })">Edit</a></td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        <button type="button" class="btn btn-danger" onclick="submitDeleteForm()">Delete Selected</button>
+
+        if (!Model.IsSuccess && Model.SourceAction == "DeleteSectionType")
+        {
+            <label id="deleteError">@Model.Message</label>
+        }
+    }
+</div>
+
+<script type="text/javascript">
+    function submitCreateForm() {
+    $.ajax({
+        url: '@Url.Action("CreateSectionType", "Home")',
+        type: 'POST',
+        data: $('#createSectionTypeForm').serialize(),
+        success: function (result) {
+
+            $('#crudContainer').html(result);
+
+        },
+        error: function (xhr) {
+            $('#createError').text(xhr.responseText);
+        }
+    });
+}
+
+    function submitDeleteForm() {
+    if (confirmDelete()) {
+        $.ajax({
+            url: '@Url.Action("DeleteSectionTypes", "Home")',
+            type: 'POST',
+            data: $('#deleteSectionTypesForm').serialize(),
+            success: function (result) {
+                $('#crudContainer').html(result);
+            },
+            error: function (xhr) {
+                $('#deleteError').text(xhr.responseText);
+            }
+        });
+    }
+}
+
+    function confirmDelete() {
+        return confirm("Are you sure you want to delete the selected items?");
+    }
+</script>

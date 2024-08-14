@@ -36,10 +36,9 @@ namespace StepForward.Controllers
             {
                 viewModel.IsSuccess = false;
                 viewModel.Message = errormessage;
-                return View("Index", viewModel); 
             }
 
-            return RedirectToAction("Index"); 
+            return PartialView("CRUD", viewModel);
         }
 
         [HttpPost]
@@ -55,10 +54,9 @@ namespace StepForward.Controllers
             {
                 viewModel.IsSuccess = false;
                 viewModel.Message = errormessage;
-                return View("Index", viewModel); 
             }
 
-            return RedirectToAction("Index"); 
+            return PartialView("CRUD", viewModel);
         }
 
 
