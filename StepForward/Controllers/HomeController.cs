@@ -24,39 +24,30 @@ namespace StepForward.Controllers
         }
 
         [HttpPost]
-        public ActionResult CreateSectionType(Section_Type sectionType)
+        public JsonResult CreateSectionType(Section_Type sectionType)
         {
             var viewModel = _sectionTypeService.GetSectionTypeViewModel();
             viewModel.SourceAction = "CreateSectionType";
 
             string errormessage = null;
-            bool isSuccessful = _sectionTypeService.AddSectionType(sectionType, out errormessage);
+            viewModel.IsSuccess = _sectionTypeService.AddSectionType(sectionType, out errormessage);
+            viewModel.Message = errormessage;
 
-            if (!isSuccessful)
-            {
-                viewModel.IsSuccess = false;
-                viewModel.Message = errormessage;
-            }
-
-            return PartialView("CRUD", viewModel);
+            return Json(new { viewModel});
         }
 
         [HttpPost]
-        public ActionResult DeleteSectionTypes(int[] selectedItems)
+        public JsonResult DeleteSectionTypes(int[] selectedItems)
         {
             var viewModel = _sectionTypeService.GetSectionTypeViewModel();
             viewModel.SourceAction = "DeleteSectionType";
 
             string errormessage = null;
-            bool isSuccessful = _sectionTypeService.DeleteSectionTypes(selectedItems, out errormessage);
+            viewModel.IsSuccess = _sectionTypeService.DeleteSectionTypes(selectedItems, out errormessage);
 
-            if (!isSuccessful)
-            {
-                viewModel.IsSuccess = false;
-                viewModel.Message = errormessage;
-            }
+            viewModel.Message = errormessage;
 
-            return PartialView("CRUD", viewModel);
+            return Json(new { viewModel }, JsonRequestBehavior.AllowGet);
         }
 
 
@@ -94,6 +85,15 @@ namespace StepForward.Controllers
 
             return RedirectToAction("Index");
         }
+
+        [HttpGet]
+
+        public ActionResult GetPartialView () {
+
+            var viewModel = _sectionTypeService.GetSectionTypeViewModel();
+            return PartialView("CRUD", viewModel);
+        }
+
 
     }
 }

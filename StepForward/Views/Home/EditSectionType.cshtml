@@ -2,14 +2,14 @@
 
 <h2>Edit Section Type</h2>
 
-@using (Html.BeginForm("EditSectionType", "Home", FormMethod.Post))
+@using (Html.BeginForm("EditSectionType", "Home", FormMethod.Post, new { id = "editSectionTypeForm" }))
 {
     @Html.HiddenFor(model => model.NewSectionType.Id)
 
 <div>
     @Html.LabelFor(model => model.NewSectionType.Name)
     @Html.EditorFor(model => model.NewSectionType.Name)
-
+    <label id="editError" class="text-danger"></label>
     @if (!Model.IsSuccess && Model.SourceAction == "PostEditSectionType")
     {
         <label>@Model.Message</label>
@@ -17,9 +17,42 @@
 </div>
 
     <div>
-        <input type="submit" value="Update" class="btn btn-primary" />
+        <input type="button" value="Update" class="btn btn-primary" onclick="submitEditForm()" />
     </div>
 }
 
+<script>
+    function validateEditForm() {
+        var isValid = true;
+        var name = $('#NewSectionType_Name').val();
 
+
+        $('#editError').text("");
+
+
+        if (name === "") {
+            $('#editError').text("Name is required.");
+            isValid = false;
+        }
+
+        return isValid;
+    }
+
+    function submitEditForm() {
+        if (validateEditForm()) {
+            $.ajax({
+                url: '@Url.Action("EditSectionType", "Home")',
+                type: 'POST',
+                data: $('#editSectionTypeForm').serialize(),
+                success: function (result) {
+                    window.location.href = '@Url.Action("Index", "Home")';
+                },
+                error: function (xhr) {
+                    $('#editError').text(xhr.responseText);
+                }
+            });
+        }
+    }
+
+</script>
 

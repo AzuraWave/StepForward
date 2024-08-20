@@ -570,6 +570,7 @@ namespace StepForward.Models
 		
 		private int _Id;
 		
+
 		private string _Name;
 		
 		private EntitySet<Section> _Sections;

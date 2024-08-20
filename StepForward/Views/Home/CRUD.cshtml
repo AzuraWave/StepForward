@@ -7,7 +7,11 @@
     {
         <div>
             <label for="Name">Name:</label>
+            
             <input type="text" id="Name" name="Name" value="@Model.NewSectionType.Name" />
+            <p id="createError"></p>
+            
+            
             @if (!Model.IsSuccess && Model.SourceAction == "CreateSectionType")
             {
                 <label id="createError">@Model.Message</label>
@@ -19,6 +23,23 @@
     }
 
 </div>
+
+<script>
+    function validateForm() {
+        var isValid = true;
+        var name = $('#Name').val();
+
+        if (name === "") {
+            $('#createError').text("Name is required.");
+            isValid = false;
+        } else {
+            $('#createError').text("");
+        }
+
+        return isValid;
+    }
+</script>
+
 
 <h2>Delete Items</h2>
 
@@ -47,40 +68,80 @@
         </table>
         <button type="button" class="btn btn-danger" onclick="submitDeleteForm()">Delete Selected</button>
 
+        <p id="deleteError" ></p>
         if (!Model.IsSuccess && Model.SourceAction == "DeleteSectionType")
         {
-            <label id="deleteError">@Model.Message</label>
+            <label id="">@Model.Message</label>
         }
     }
 </div>
 
-<script type="text/javascript">
-    function submitCreateForm() {
-    $.ajax({
-        url: '@Url.Action("CreateSectionType", "Home")',
-        type: 'POST',
-        data: $('#createSectionTypeForm').serialize(),
-        success: function (result) {
+<script>
+    function validateDeleteForm() {
+        var isValid = true;
+        var selectedItems = $('input[name="selectedItems"]:checked').length;
 
-            $('#crudContainer').html(result);
+        $('#deleteError').text("");
 
-        },
-        error: function (xhr) {
-            $('#createError').text(xhr.responseText);
+        if (selectedItems === 0) {
+            $('#deleteError').text("Please select at least one item to delete.");
+            isValid = false;
         }
-    });
+
+        return isValid;
+    }
+</script>
+
+<script type="text/javascript">
+
+
+    function submitCreateForm() {
+        if (validateForm()) {
+            $.ajax({
+                url: '@Url.Action("CreateSectionType", "Home")',
+                type: 'POST',
+                data: $('#createSectionTypeForm').serialize(),
+                dataType: 'json',
+                success: function (result) {
+                    $('#createError').text(result.viewModel.Message);
+
+                    if (result.viewModel.IsSuccess) {
+
+                    } else {
+                       
+                    }
+                    
+                },
+                error: function (xhr) {
+
+                    $('#createError').text(xhr.responseText);
+                }
+
+                
+                
+            });
+        }
 }
 
     function submitDeleteForm() {
-    if (confirmDelete()) {
+        if (validateDeleteForm() && confirmDelete()) {
         $.ajax({
             url: '@Url.Action("DeleteSectionTypes", "Home")',
             type: 'POST',
             data: $('#deleteSectionTypesForm').serialize(),
             success: function (result) {
-                $('#crudContainer').html(result);
+                $('#deleteError').text(result.viewModel.Message);
+                if (result.viewModel.IsSuccess) {
+
+                    
+                } else {
+                    
+                }
+
+                
             },
             error: function (xhr) {
+
                 $('#deleteError').text(xhr.responseText);
             }
         });
