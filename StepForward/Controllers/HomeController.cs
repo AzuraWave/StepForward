@@ -32,6 +32,7 @@ namespace StepForward.Controllers
             string errormessage = null;
             viewModel.IsSuccess = _sectionTypeService.AddSectionType(sectionType, out errormessage);
             viewModel.Message = errormessage;
+            viewModel.NewSectionType = sectionType; 
 
             return Json(new { viewModel});
         }
@@ -47,7 +48,7 @@ namespace StepForward.Controllers
 
             viewModel.Message = errormessage;
 
-            return Json(new { viewModel }, JsonRequestBehavior.AllowGet);
+            return Json(new { viewModel });
         }
 
 
@@ -62,11 +63,10 @@ namespace StepForward.Controllers
                 viewmodel.SourceAction = "GetEditSectionType";
 
                 return View(viewmodel);
-            
         }
 
         [HttpPost]
-        public ActionResult EditSectionType(SectionTypeViewModel model)
+        public JsonResult EditSectionType(SectionTypeViewModel model)
         {
             var viewModel = _sectionTypeService.GetSectionTypeViewModel();
             viewModel.NewSectionType = model.NewSectionType;
@@ -80,10 +80,10 @@ namespace StepForward.Controllers
                 { 
                     viewModel.IsSuccess = false;
                     viewModel.Message = error;
-                    return View(viewModel);
+                return Json(new { viewModel });
                 }
 
-            return RedirectToAction("Index");
+            return Json( viewModel );
         }
 
         [HttpGet]

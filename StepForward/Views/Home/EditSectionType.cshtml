@@ -45,7 +45,12 @@
                 type: 'POST',
                 data: $('#editSectionTypeForm').serialize(),
                 success: function (result) {
-                    window.location.href = '@Url.Action("Index", "Home")';
+                    console.log(result);
+                    console.log(result.IsSuccess);
+                    if (result.IsSuccess) {
+
+                        window.location.href = '@Url.Action("Index", "Home")';
+                    }
                 },
                 error: function (xhr) {
                     $('#editError').text(xhr.responseText);
